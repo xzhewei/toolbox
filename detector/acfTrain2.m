@@ -1,4 +1,4 @@
-function detector = acfTrain( varargin )
+function detector = acfTrain2( varargin )
 % Train aggregate channel features object detector.
 %
 % Train aggregate channel features (ACF) object detector as described in:
@@ -135,7 +135,7 @@ for stage = 0:numel(opts.nWeak)-1
   if( stage==0 )
     [Is1,IsOrig1] = sampleWins( detector, stage, 1 );
     t=ndims(Is1); if(t==3), t=Is1(:,:,1); else t=Is1(:,:,:,1); end
-    t=chnsCompute(t,opts.pPyramid.pChns); detector.info=t.info;
+    t=chnsCompute2(t,opts.pPyramid.pChns); detector.info=t.info;
   end
   
   % compute local decorrelation filters
@@ -232,7 +232,8 @@ if( exist(crDir,'dir') && stage==0 )
   fs=bbGt('getFiles',{crDir}); nImg=length(fs); assert(nImg>0);
   if(nImg>n), fs=fs(:,randSample(nImg,n)); end; n=nImg;
   for i=1:n, fs{i}=[{opts.imreadf},fs(i),opts.imreadp]; end
-  Is=cell(1,n); parfor i=1:n, Is{i}=feval(fs{i}{:}); end
+%   Is=cell(1,n); parfor i=1:n, Is{i}=feval(fs{i}{:}); end
+  Is=cell(1,n); for i=1:n, Is{i}=feval(fs{i}{:}); end
 else
   % sample windows from full images using sampleWins1()
   hasGt=positive||isempty(opts.negImgDir); fs={opts.negImgDir};
@@ -242,7 +243,8 @@ else
   diary('off'); tid=ticStatus('Sampling windows',1,30); k=0; i=0; batch=64;
   while( i<nImg && k<n )
     batch=min(batch,nImg-i); Is1=cell(1,batch);
-    parfor j=1:batch, ij=i+j;    
+%     parfor j=1:batch, ij=i+j;    
+    for j=1:batch, ij=i+j;    
       I = feval(opts.imreadf,fs{1,ij},opts.imreadp{:}); %#ok<PFBNS>
       gt=[]; if(hasGt), [~,gt]=bbGt('bbLoad',fs{2,ij},opts.pLoad); end
       Is1{j} = sampleWins1( I, gt, detector, stage, positive );
@@ -309,8 +311,9 @@ fprintf('Extracting features... '); start=clock; fs=opts.filters;
 pChns=opts.pPyramid.pChns; smooth=opts.pPyramid.smooth;
 dsTar=opts.modelDsPad/pChns.shrink; ds=size(Is); ds(1:end-1)=1;
 Is=squeeze(mat2cell2(Is,ds)); n=length(Is); chns=cell(1,n);
-parfor i=1:n
-  C=chnsCompute(Is{i},pChns); C=convTri(cat(3,C.data{:}),smooth);
+% parfor i=1:n
+for i=1:n
+  C=chnsCompute2(Is{i},pChns); C=convTri(cat(3,C.data{:}),smooth);
   if(~isempty(fs)), C=repmat(C,[1 1 size(fs,4)]);
     for j=1:size(C,3), C(:,:,j)=conv2(C(:,:,j),fs(:,:,j),'same'); end; end
   if(~isempty(fs)), C=imResample(C,.5); shr=2; else shr=1; end
@@ -328,7 +331,8 @@ filters=zeros(w,w,m,nFilter,'single');
 for i=1:m
   % compute local auto-scorrelation using Wiener-Khinchin theorem
   mus=squeeze(mean(mean(chns(:,:,i,:)))); sig=cell(1,n);
-  parfor j=1:n
+%   parfor j=1:n
+  for j=1:n
     T=fftshift(ifft2(abs(fft2(chns(:,:,i,j)-mean(mus))).^2));
     sig{j}=T(floor(end/2)+1-w+(1:wp),floor(end/2)+1-w+(1:wp));
   end
