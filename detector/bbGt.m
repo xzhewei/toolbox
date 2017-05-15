@@ -303,12 +303,12 @@ end
 % For KAIST-MultispectralDB
 if(~isempty(vType)),
     for i=1:n,        
-        objs(i).occ = 2^objs(i).occ;
+        occ = 2^objs(i).occ;
 		%if      objs(i).occ == 0,    objs(i).occ = 1;
         %elseif  objs(i).occ == 1,    objs(i).occ = 2;
         %elseif  objs(i).occ == 2,    objs(i).occ = 4;
         %end
-        objs(i).ign = objs(i).ign || ~bitand( objs(i).occ, vVal );                
+        objs(i).ign = objs(i).ign || ~bitand( occ, vVal );                
     end
 end
 % finally get extent of each bounding box (not trivial if ang~=0)
