@@ -1,4 +1,4 @@
-function dbEval_RPNBF
+function dbEval_kaist
 
 % addpath(genpath('../toolbox'));
 % remove all the former results
