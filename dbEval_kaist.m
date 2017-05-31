@@ -63,6 +63,7 @@ algs = {
   'RPN-kv-ped-lwir',        0, clrs(10,:),  '-'
   'RPN-kv-ped-lwir_flip',   0, clrs(11,:),  '-'
   'RPN-ped-visible',        0, clrs(11,:),  '-'
+  'RPN+BF-kaist-lwir'       0, clrs(12,:),  '-'
   
 };
 algs=cell2struct(algs',{'name','resize','color','style'});
