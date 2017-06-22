@@ -67,6 +67,9 @@ switch name1
     setIds=0; subdir='Pietro'; skip=1; ext='jpg'; vidIds={0};
 
   % KAIST Multispectral Pedestrian Dataset (CVPR15)
+  case 'kaist-all'
+    setIds=0:11; subdir='kaist'; skip=1; ext='jpg';
+    vidIds={0:8 0:5 0:4 0:1 0:1 0 0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
   case 'kaist-test-all'
     setIds=6:11;    subdir='kaist'; skip=20; ext='jpg'; 
     vidIds={0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
