@@ -39,8 +39,18 @@ function bbs = acfDetect( I, detector, fileName )
 if(nargin<3), fileName=''; end; multiple=iscell(I);
 if(~isempty(fileName) && exist(fileName,'file')), bbs=1; return; end
 if(~multiple), bbs=acfDetectImg(I,detector); else
-  n=length(I); bbs=cell(n,1);
-  parfor i=1:n, bbs{i}=acfDetectImg(I{i},detector); end
+  n=length(I); bbs=cell(n,1);  
+%   parfor i=1:n, bbs{i}=acfDetectImg(I{i},detector); end
+tid=ticStatus('Evaluation',1,30); k=0; i=0; batch=64;
+  while( i<n )
+    batch=min(batch,n-i); bbs1=cell(1,batch);
+%     parfor j=1:batch, ij=i+j;
+    for j=1:batch, ij=i+j;
+      bbs1{j}=acfDetectImg(I{ij},detector);      
+    end
+    bbs(k+1:k+batch)=bbs1; k=k+batch;    
+    i=i+batch; tocStatus(tid,i/n);
+  end  
 end
 
 % write results to disk if fileName specified
@@ -76,6 +86,9 @@ for i=1:P.nScales
     modelDsPad=opts.modelDsPad; modelDs=opts.modelDs;
     bb = acfDetect1(P.data{i},Ds{j}.clf,shrink,...
       modelDsPad(1),modelDsPad(2),opts.stride,opts.cascThr);
+%     bb = acfDetect1_Debug(P.data{i},Ds{j}.clf,shrink,...
+%       modelDsPad(1),modelDsPad(2),opts.stride,opts.cascThr);
+  
     shift=(modelDsPad-modelDs)/2-pad;
     bb(:,1)=(bb(:,1)+shift(2))/P.scaleshw(i,2);
     bb(:,2)=(bb(:,2)+shift(1))/P.scaleshw(i,1);
