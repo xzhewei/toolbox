@@ -93,22 +93,8 @@ if( logx==1 )
   set(gca,'XScale','log','XTick',ticks);
 end
 if( logy==1 )
-%   ticks=[.001 .002 .005 .01 .02 .05 .1 .2 .5 1];
-%   set(gca,'YScale','log','YTick',ticks);
-
-    % ~ MATLAB R2013
-%     ticks=[.2 .3 .4 .5 .64 .8];
-%     ytStr=sprintf('.%02i',round(ticks*100));
-%     ticks = [ticks, 1];
-%     ytStr=[ytStr, num2str(1)];
-%     set(gca,'YScale', 'log', 'YTick',ticks,'YTickLabel',ytStr);
-    
-    % For MATLAB R2014
-    ticks={.1 .2 .3 .4 .5 .64 .8};
-    ytStr=cellfun( @(x)sprintf('.%02i',round(x*100)), ticks, 'uniformoutput', false );
-    ticks = [ticks, 1];
-    ytStr=[ytStr, num2str(1)];
-    set(gca,'YScale', 'log', 'YTick',[ticks{:}],'YTickLabel',ytStr);
+  ticks=[.001 .002 .005 .01 .02 .05 .1 .2 .5 1];
+  set(gca,'YScale','log','YTick',ticks);
 end
 if( logx==1 || logy==1 ), grid on;
   set(gca,'XMinorGrid','off','XMinorTic','off');

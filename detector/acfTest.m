@@ -35,12 +35,12 @@ function [miss,roc,gt,dt] = acfTest( varargin )
 % get parameters
 dfs={ 'name','REQ', 'imgDir','REQ', 'gtDir','REQ', 'pLoad',[], ...
   'pModify',[], 'thr',.5,'mul',0, 'reapply',0, 'ref',10.^(-2:.25:0), ...
-  'lims',[3.1e-3 1e1 .05 1], 'show',0, 'type', '', 'clr', 'g', 'lineSt', '-' };
-[name,imgDir,gtDir,pLoad,pModify,thr,mul,reapply,ref,lims,show,type,clr,lineSt] = ...
+  'lims',[3.1e-3 1e1 .05 1], 'show',0 };
+[name,imgDir,gtDir,pLoad,pModify,thr,mul,reapply,ref,lims,show] = ...
   getPrmDflt(varargin,dfs,1);
 
 % run detector on directory of images
-bbsNm=[name type 'Dets.txt'];
+bbsNm=[name 'Dets.txt'];
 if(reapply && exist(bbsNm,'file')), delete(bbsNm); end
 if(reapply || ~exist(bbsNm,'file'))
   detector = load([name 'Detector.mat']);
@@ -58,11 +58,9 @@ miss=exp(mean(log(max(1e-10,1-miss)))); roc=[score fp tp];
 
 % optionally plot roc
 if( ~show ), return; end
-figure(show); plotRoc([fp tp],'logx',1,'logy',1,'xLbl','False positives per image',...
-  'lims',lims,'color',clr,'lineSt', lineSt,'smooth',1,'fpTarget',ref);
-        
-
+figure(show); plotRoc([fp tp],'logx',1,'logy',1,'xLbl','fppi',...
+  'lims',lims,'color','g','smooth',1,'fpTarget',ref);
 title(sprintf('log-average miss rate = %.2f%%',miss*100));
-savefig([name type 'Roc'],show,'png');
+savefig([name 'Roc'],show,'png');
 
 end
