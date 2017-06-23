@@ -66,13 +66,10 @@ switch name1
   case 'pietro'
     setIds=0; subdir='Pietro'; skip=1; ext='jpg'; vidIds={0};
 
-  % KAIST Multispectral Pedestrian Dataset (CVPR15)
+  % KAIST Multispectral Pedestrian Dataset (CVPR15) xuzhewei
   case 'kaist-all'
     setIds=0:11; subdir='kaist'; skip=1; ext='jpg';
     vidIds={0:8 0:5 0:4 0:1 0:1 0 0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
-  case 'kaist-test-all'
-    setIds=6:11;    subdir='kaist'; skip=20; ext='jpg'; 
-    vidIds={0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
   case 'kaist-visible-all'
     setIds=0:11;     subdir='kaist-visible'; skip=1; ext='jpg';     % Captured at 20fps
     vidIds={0:8 0:5 0:4 0:1 0:1 0 0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
@@ -88,18 +85,27 @@ switch name1
   case 'kaist-lwir-all-test'
     setIds=6:11;    subdir='kaist-lwir'; skip=20; ext='jpg'; 
     vidIds={0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
-%   case 'kaist-test-day'
-%     setIds=6:8;    subdir='kaist-day'; skip=20; ext='png';
-%     vidIds={0:4 0:2 0:2}; dbName = 'kaist';
-%   case 'kaist-test-night'
-%     setIds=9:11;    subdir='kaist-night'; skip=20; ext='png';
-%     vidIds={0 0:1 0:1}; dbName = 'kaist';
-%     
-%   % KAIST All-Day Visual Place Recognition Dataset (CVPRW15 - VPRICE))
-%   case 'kaist-place'
-%     setIds=0:5;     subdir='place'; skip=20; ext='png';     % Captured at 20fps
-%     vidIds={0:3 0:3 0:3 0:3 0:3 0:3 }; dbName = 'kaist-place';  
-%   otherwise, error('unknown data type: %s',name);
+   % KAIST Multispectral Pedestrian Dataset (CVPR15)
+  case 'kaist-train-all'
+    setIds=0:5;     subdir='kaist'; skip=20; ext='png';     % Captured at 20fps
+    vidIds={0:8 0:5 0:4 0:1 0:1 0}; dbName = 'kaist';
+  case 'kaist-test-all'
+    setIds=6:11;    subdir='kaist'; skip=20; ext='png'; 
+    vidIds={0:4 0:2 0:2 0 0:1 0:1}; dbName = 'kaist';
+  case 'kaist-test-day'
+    setIds=6:8;    subdir='kaist-day'; skip=20; ext='png';
+    vidIds={0:4 0:2 0:2}; dbName = 'kaist';
+  case 'kaist-test-night'
+    setIds=9:11;    subdir='kaist-night'; skip=20; ext='png';
+    vidIds={0 0:1 0:1}; dbName = 'kaist';
+    
+  % KAIST All-Day Visual Place Recognition Dataset (CVPRW15 - VPRICE))
+  case 'kaist-place'
+    setIds=0:5;     subdir='place'; skip=20; ext='png';     % Captured at 20fps
+    vidIds={0:3 0:3 0:3 0:3 0:3 0:3 }; dbName = 'kaist-place';  
+  
+
+  otherwise, error('unknown data type: %s',name);
 end
 
 % optionally select only specific set/vid if name ended in ints
