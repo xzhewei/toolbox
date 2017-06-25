@@ -1,4 +1,4 @@
-nfunction dbExtract( tDir, flatten, skip )
+function dbExtract( tDir, flatten, skip )
 % Extract database to directory of images and ground truth text files.
 %
 % Call 'dbInfo(name)' first to specify the dataset. The format of the

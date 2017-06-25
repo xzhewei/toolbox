@@ -1,4 +1,4 @@
-function [pth,setIds,vidIds,skip,ext] = dbInfo( name1 )
+function [pth,setIds,vidIds,skip,ext] = dbInfo( name1, pthl )
 % Specifies data amount and location.
 %
 % 'name' specifies the name of the dataset. Valid options include: 'Usa',
@@ -65,13 +65,20 @@ switch name1
     setIds=0; subdir='Daimler'; skip=1; ext='png'; vidIds={0};
   case 'pietro'
     setIds=0; subdir='Pietro'; skip=1; ext='jpg'; vidIds={0};
-  case 'caltest'
-    setIds = 1;
-    subdir = '';
-    skip = 30;
-    ext = 'jpg';
-    vidIds = {0:5};
-  otherwise, error('unknown data type: %s',name);
+    
+  %SCUT FIR Pedestrian Datasets 101
+  case 'scut'
+    setIds=0:20; subdir='SCUT_FIR_101'; skip=20; ext='jpg';
+    vidIds={0:2 0:3 0:1 0:2 0:11 0:10 0:6 0:1 0:2 0:1 0 ...
+            0:3 0:3 0:1 0:2 0:11 0:9  0:7 0:1 0:2 0:1};
+  case 'scuttrain'
+    setIds=0:10; subdir='SCUT_FIR_101'; skip=20; ext='jpg';
+    vidIds={0:2 0:3 0:1 0:2 0:11 0:10 0:6 0:1 0:2 0:1 0};
+  case 'scuttest'
+    setIds=11:20; subdir='SCUT_FIR_101'; skip=20; ext='jpg';
+    vidIds={0:3 0:3 0:1 0:2 0:11 0:9  0:7 0:1 0:2 0:1};
+  
+    otherwise, error('unknown data type: %s',name);
 end
 
 % optionally select only specific set/vid if name ended in ints
@@ -79,7 +86,9 @@ if(~isempty(setId)), setIds=setIds(setId); vidIds=vidIds(setId); end
 if(~isempty(vidId)), vidIds={vidIds{1}(vidId)}; end
 
 % actual directory where data is contained
-pth=fileparts(mfilename('fullpath'));
-pth=[pth filesep 'data-' subdir];
+if ~exist( 'pth', 'var' )
+    pth=fileparts(mfilename('fullpath'));
+    pth=[pth filesep 'data-' subdir];
+end
 
 end
