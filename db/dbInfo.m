@@ -1,4 +1,4 @@
-function [pth,setIds,vidIds,skip,ext] = dbInfo( name1, pthl )
+function [pth,setIds,vidIds,skip,ext] = dbInfo( name1 )
 % Specifies data amount and location.
 %
 % 'name' specifies the name of the dataset. Valid options include: 'Usa',
@@ -86,9 +86,7 @@ if(~isempty(setId)), setIds=setIds(setId); vidIds=vidIds(setId); end
 if(~isempty(vidId)), vidIds={vidIds{1}(vidId)}; end
 
 % actual directory where data is contained
-if ~exist( 'pth', 'var' )
-    pth=fileparts(mfilename('fullpath'));
-    pth=[pth filesep 'data-' subdir];
-end
+pth=fileparts(mfilename('fullpath'));
+pth=[pth filesep 'data-' subdir];
 
 end
