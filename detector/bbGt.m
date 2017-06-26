@@ -294,20 +294,6 @@ if(~isempty(vRng)),  for i=1:n, o=objs(i); bb=o.bb; bbv=o.bbv; %#ok<ALIGN>
     objs(i).ign = objs(i).ign || v<vRng(1) || v>vRng(2); end
 end
 
-<<<<<<< HEAD
-=======
-% For KAIST-MultispectralDB
-if(~isempty(vType)),
-    for i=1:n,        
-        objs(i).occ = 2^objs(i).occ;
-		    %if      objs(i).occ == 0,    objs(i).occ = 1;
-        %elseif  objs(i).occ == 1,    objs(i).occ = 2;
-        %elseif  objs(i).occ == 2,    objs(i).occ = 4;
-        %end
-        objs(i).ign = objs(i).ign || ~bitand( objs(i).occ, vVal );                
-    end
-end
->>>>>>> kaist
 % finally get extent of each bounding box (not trivial if ang~=0)
 if(nargout<=1), return; end; if(n==0), bbs=zeros(0,5); return; end
 bbs=double([reshape([objs.bb],4,[]); [objs.ign]]'); ign=bbs(:,5)==1;
