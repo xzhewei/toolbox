@@ -48,7 +48,7 @@ if(reapply || ~exist(bbsNm,'file'))
   detector = detector.detector;
   
   if ~silent
-%       cache_dir = fullfile(cache_dir, 'RPN+BF');
+      cache_dir = fullfile(cache_dir, 'RPN+BF');
       if exist(cache_dir, 'dir')
           error([cache_dir ' is existed! Deal with it']);
       end
