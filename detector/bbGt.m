@@ -210,7 +210,7 @@ function [objs,bbs] = bbLoad( fName, varargin )
 
 % get parameters
 df={'format',0,'ellipse',1,'squarify',[],'lbls',[],'ilbls',[],'hRng',[],...
-  'wRng',[],'aRng',[],'arRng',[],'oRng',[],'xRng',[],'yRng',[],'vRng',[],'vType',{'none'}};
+  'wRng',[],'aRng',[],'arRng',[],'oRng',[],'xRng',[],'yRng',[],'vRng',[],'vType',{}};
 [format,ellipse,sqr,lbls,ilbls,hRng,wRng,aRng,arRng,oRng,xRng,yRng,vRng,vType]...
   = getPrmDflt(varargin,df,1);
 
@@ -295,7 +295,7 @@ if(~isempty(aRng)),  for i=1:n, v=objs(i).bb(3)*objs(i).bb(4);
 if(~isempty(arRng)), for i=1:n, v=objs(i).bb(3)/objs(i).bb(4);
     objs(i).ign = objs(i).ign || v<arRng(1) || v>arRng(2); end; end
 if(~isempty(vRng)),  for i=1:n, o=objs(i); bb=o.bb; bbv=o.bbv; %#ok<ALIGN>
-    if(~o.occ || all(bbv==0)), v=1; elseif(all(bbv==bb)), v=0; else
+    if(~o.occ || all(bbv==0)), v=inf; elseif(all(bbv==bb)), v=0; else
       v=(bbv(3)*bbv(4))/(bb(3)*bb(4)); end
     objs(i).ign = objs(i).ign || v<vRng(1) || v>vRng(2); end
 end
