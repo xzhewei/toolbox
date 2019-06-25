@@ -751,9 +751,17 @@ if(size(dt,1)==0), xs=0; ys=0; score=0; ref=ref*0; return; end
 m=length(ref); np=size(gt,1); score=dt(:,5); tp=dt(:,6);
 [score,order]=sort(score,'descend'); tp=tp(order);
 fp=double(tp~=1); fp=cumsum(fp); tp=cumsum(tp);
-if( roc )
+if( roc==1 )
   xs=fp/nImg; ys=tp/np; xs1=[-inf; xs]; ys1=[0; ys];
   for i=1:m, j=find(xs1<=ref(i)); ref(i)=ys1(j(end)); end
+elseif ( roc==2 )
+  % count FP
+  xs=tp/np; 
+  ys=fp;
+  % count recall
+  % xs=fp/nImg; ys=tp/np;
+  xs1=[xs; inf]; ys1=[ys; ys(end)];
+  for i=1:m, j=find(xs1>=ref(i)); ref(i)=ys1(j(1)); end
 else
   xs=tp/np; ys=tp./(fp+tp); xs1=[xs; inf]; ys1=[ys; 0];
   for i=1:m, j=find(xs1>=ref(i)); ref(i)=ys1(j(1)); end
